@@ -1,25 +1,68 @@
 const express = require("express");
-const router = express.Router();
+const SneakerModel = require("../models/Sneaker");
+const router = express.Router(); /* ); */
 
-return console.log(`\n\n
+console.log(`\n\n
 -----------------------------
 -----------------------------
      wax on / wax off !
 -----------------------------
------------------------------\n\n`
-);
-
+-----------------------------\n\n`);
 router.get("/", (req, res) => {
   res.send("foo");
 });
+router.get("/sneakers/:cat", async (req, res) => {
+  if (req.params.cat === "collection") {
+    try {
+      const sneakers = await SneakerModel.find();
+      res.render("products", { sneakers });
+    } catch (err) {
+      next(err);
+    }
+  } else if (req.params.cat === "men") {
+    try {
+      const sneakers = await SneakerModel.find({ category: "men" });
+      res.render("products", { sneakers });
+    } catch (err) {
+      next(err);
+    }
+  } else if (req.params.cat === "women") {
+    try {
+      const sneakers = await SneakerModel.find({ category: "women" });
+      res.render("products", { sneakers });
+    } catch (err) {
+      next(err);
+    }
+  } else if (req.params.cat === "kids") {
+    try {
+      const sneakers = await SneakerModel.find({ category: "kids" });
+      res.render("products", { sneakers });
+    } catch (err) {
+      next(err);
+    }
+  }
 
-router.get("/sneakers/:cat", (req, res) => {
-  res.send("bar");
+  console.log(req.params.cat);
 });
 
-router.get("/one-product/:id", (req, res) => {
-  res.send("baz");
+router.get("/one-product/:id", async (req, res) => {
+  try {
+    const sneaker = await SneakerModel.findById(req.params.id);
+    console.log(sneaker);
+    res.render("one_product", { sneaker });
+  } catch (err) {
+    next(err);
+  }
 });
+
+router.get("/prod-add" , (req, res, next) => {
+  res.render("product_add")
+}
+/* router.post("/prod-add" , async (req, res, next) => { */
+/*   */
+/*   */
+/*   */
+/* } */
 
 router.get("/signup", (req, res) => {
   res.send("sneak");
@@ -28,6 +71,5 @@ router.get("/signup", (req, res) => {
 router.get("/signin", (req, res) => {
   res.send("love");
 });
-
 
 module.exports = router;
