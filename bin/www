@@ -7,7 +7,9 @@ const server = http.createServer(app);
 // catch 404 and render a not-found.hbs template
 app.use((req, res, next) => {
   res.status(404);
-  res.render("errors/not-found");
+  res.send("error")
+  // res.render("error", { error: err });
+  //changed "errors/not-found" to error
 });
 
 app.use((err, req, res, next) => {

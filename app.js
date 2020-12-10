@@ -20,9 +20,10 @@ app.use(logger("dev"));
 // initial config
 app.set("view engine", "hbs");
 app.set("views", __dirname + "/views");
-app.use(express.static("public"));
+app.use(express.static("public")); // app.use(express.static(path.join(__dirname, "public")))??
 hbs.registerPartials(__dirname + "/views/partial");
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded()); 
+///i changed false to true { extended: true } 
 app.use(express.json());
 app.use(cookieParser());
 

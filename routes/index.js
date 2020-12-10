@@ -56,13 +56,42 @@ router.get("/one-product/:id", async (req, res) => {
 });
 
 router.get("/prod-add" , (req, res, next) => {
-  res.render("product_add")
-}
-/* router.post("/prod-add" , async (req, res, next) => { */
-/*   */
-/*   */
-/*   */
-/* } */
+  res.render("products_add")
+})
+
+ router.post("/prod-add" , async (req, res, next) => {
+   try{
+     const newSneaker = req.body;
+    //  console.log(req.body); 
+     await SneakerModel.create(newSneaker);
+     res.redirect("/prod-add");
+   }catch(err){
+     next(err)
+   }
+  })
+
+
+router.get("/prod-edit/:id" , async (req, res, next) => {
+    const sneaker = await SneakerModel.findById(req.params.id);
+    console.log(sneaker);
+    res.render("product_edit", {sneaker} )
+  })
+
+//here i cant find the edit btn ???? 
+router.post("/prod-edit/:id" , async (req, res, next) => {
+    try{
+      console.log("here");
+      const updateSneaker = req.body ///may use syntax{...req.body}???
+      console.log(updateSneaker); 
+      await SneakerModel.findByIdAndUpdate(req.params.id, updateSneaker);
+      res.send("good here");
+    }catch(err){
+      next(err)
+    }
+   })
+ 
+
+  
 
 router.get("/signup", (req, res) => {
   res.send("sneak");
